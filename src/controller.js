@@ -60,15 +60,15 @@ function createData(req, res){
 }
 
 function modifyData(req, res){
-    const instrutor = instructorList.find((instrutor)=> instrutor.id == Number(req.params.idConsultado));
+    const instructor = instructorList.find((instructor)=> instructor.id == Number(req.params.idConsultado));
 
-    if(!instrutor){
+    if(!instructor){
         res.status(404);
         res.json({ error: 'Instrutor ' + req.params.idConsultado + ' não foi encontrado'})
         return
     }
 
-    const error = validateInstructor({nome: req.body.nome ?? instrutor.nome, idade: req.body.idade ?? instrutor.idade, areaDeAtuacao: req.body.areaDeAtuacao ?? instrutor.areaDeAtuacao})
+    const error = validateInstructor({nome: req.body.nome ?? instructor.nome, idade: req.body.idade ?? instructor.idade, areaDeAtuacao: req.body.areaDeAtuacao ?? instructor.areaDeAtuacao})
 
     if(error){
         res.status(400)
@@ -77,25 +77,25 @@ function modifyData(req, res){
     }
 
     if(req.body.nome !== undefined){
-        instrutor.nome = req.body.nome
+        instructor.nome = req.body.nome
     };
 
     if(req.body.idade !== undefined){
-        instrutor.idade = req.body.idade
+        instructor.idade = req.body.idade
     };
 
     if(req.body.areaDeAtuacao !== undefined){
-        instrutor.areaDeAtuacao = req.body.areaDeAtuacao
+        instructor.areaDeAtuacao = req.body.areaDeAtuacao
     };
 
-    res.json(instrutor);
+    res.json(instructor);
 }
 
 function createOrModifyData(req, res){
-    const instrutor = instructorList.find((instrutor)=> instrutor.id == Number(req.params.idConsultado));
+    const instructor = instructorList.find((instructor)=> instructor.id == Number(req.params.idConsultado));
     
-    if(instrutor){
-        const error = validateInstructor({nome: req.body.nome ?? instrutor.nome, idade: req.body.idade ?? instrutor.idade, areaDeAtuacao: req.body.areaDeAtuacao})
+    if(instructor){
+        const error = validateInstructor({nome: req.body.nome ?? instructor.nome, idade: req.body.idade ?? instructor.idade, areaDeAtuacao: req.body.areaDeAtuacao})
         
         if(error){
             res.status(400)
@@ -103,12 +103,12 @@ function createOrModifyData(req, res){
             return
         }
 
-        instrutor.id = req.body.id;
-        instrutor.nome = req.body.nome;
-        instrutor.idade = req.body.idade;
-        instrutor.areaDeAtuacao = req.body.areaDeAtuacao;
+        instructor.id = req.body.id ?? instructor.id;
+        instructor.nome = req.body.nome ?? instructor.nome;
+        instructor.idade = req.body.idade ?? instructor.idade;
+        instructor.areaDeAtuacao = req.body.areaDeAtuacao ?? instructor.areaDeAtuacao;
 
-        res.json(instrutor);
+        res.json(instructor);
     }else{
         const newInstructor = {
             id: nextId,
@@ -126,11 +126,11 @@ function createOrModifyData(req, res){
 }
 
 function deleteData(req, res){
-    const instrutor = instructorList.find((instrutor)=> instrutor.id === Number(req.params.idConsultado))
+    const instructor = instructorList.find((instructor)=> instructor.id === Number(req.params.idConsultado))
     
-    if(instrutor) instructorList.splice(instructorList.indexOf(instrutor), 1);
+    if(instructor) instructorList.splice(instructorList.indexOf(instructor), 1);
     
-    res.json(instrutor)
+    res.json(instructor)
 }
 
 module.exports = {allQuery, singleQuery, createData, modifyData, createOrModifyData, deleteData}
